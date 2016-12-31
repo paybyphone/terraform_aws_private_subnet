@@ -16,7 +16,7 @@ resource "aws_eip" "nat_gw_public_ip_addresses" {
 resource "aws_nat_gateway" "nat_gws" {
   count         = "${var.nat_gateway_count}"
   allocation_id = "${element(aws_eip.nat_gw_public_ip_addresses.*.id, count.index)}"
-  subnet_id     = "${element(split(",", var.public_subnet_ids), count.index)}"
+  subnet_id     = "${var.public_subnet_ids[count.index]}"
 }
 
 // nat_default_routes defines the default routes for each of the subnet/NAT
@@ -28,4 +28,14 @@ resource "aws_route" "nat_default_routes" {
   route_table_id         = "${element(aws_route_table.private_route_tables.*.id, count.index)}"
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = "${element(aws_nat_gateway.nat_gws.*.id, count.index % var.nat_gateway_count)}"
+}
+
+// nat_record_sets creates DNS records for the NAT gateways.
+resource "aws_route53_record" "nat_record_sets" {
+  count   = "${var.nat_gateway_count > 0 && var.route53_zone_id != "" && var.route53_domain_name != "" ? var.nat_gateway_count : 0 }"
+  zone_id = "${var.route53_zone_id}"
+  name    = "natgw-${count.index}.${var.route53_domain_name}"
+  type    = "A"
+  ttl     = 60
+  records = ["${element(aws_nat_gateway.nat_gws.*.public_ip, count.index)}"]
 }

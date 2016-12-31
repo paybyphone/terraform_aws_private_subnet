@@ -44,5 +44,24 @@ variable "private_subnet_addresses" {
 // spread the subnets out in a round-robin fashion, with some AZs getting
 // more subnets than others.
 variable "private_subnet_availability_zones" {
-  type = "string"
+  type = "list"
+}
+
+// A Route 53 zone ID to create resource record sets in that are bound the
+// public IP addresses of the NAT gateways.
+//
+// No DNS records are created if this value is blank.
+variable "route53_zone_id" {
+  type    = "string"
+  default = ""
+}
+
+// A domain name to create resource record sets in that are bound the public IP
+// addresses of the NAT gateways. This domain has to be part of the domain
+// defined in `route53_zone_id`.
+//
+// No DNS records are created if this value is blank.
+variable "route53_domain_name" {
+  type    = "string"
+  default = ""
 }

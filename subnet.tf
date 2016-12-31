@@ -5,8 +5,8 @@
 resource "aws_subnet" "private_subnets" {
   count                   = "${length(var.private_subnet_addresses)}"
   vpc_id                  = "${var.vpc_id}"
-  availability_zone       = "${element(var.private_subnet_availability_zones, count.index)}"
-  cidr_block              = "${element(var.private_subnet_addresses, count.index)}"
+  availability_zone       = "${var.private_subnet_availability_zones[count.index]}"
+  cidr_block              = "${var.private_subnet_addresses[count.index]}"
   map_public_ip_on_launch = false
 
   tags {
@@ -34,7 +34,7 @@ resource "aws_route_table" "private_route_tables" {
 // private_route_table_subnet_assocs defines the subnet associations that link the
 // subnets to the route tables defined in private_route_tables.
 resource "aws_route_table_association" "private_route_table_subnet_assocs" {
-  count          = "${length(split(",", var.private_subnet_addresses))}"
+  count          = "${length(var.private_subnet_addresses)}"
   route_table_id = "${element(aws_route_table.private_route_tables.*.id, count.index)}"
   subnet_id      = "${element(aws_subnet.private_subnets.*.id, count.index)}"
 }
