@@ -43,6 +43,8 @@ available to them.
 | nat_gateway_count | The number of NAT gateways to create.<br><br>This is required due to current limitations in Terraform. The number should be equal to the amount of public subnets that you are passing in, for which one NAT gateway will be created per subnet ID. Less NAT gateways will create an uneven distribution (some subnets will not get one), and more NAT gateways will wrap around, giving you more than one NAT gateway per subnet, which is definitely *not* what you want.<br><br>As a special case, a value of 0 disables NAT altogether. | - | yes |
 | private_subnet_addresses | The list of network addresses to create subnets for. | - | yes |
 | private_subnet_availability_zones | The availability zones to create the private subnets in.<br><br>It is recommended that this line up with both the public subnet IDs you are NATing to, if appliciable.<br><br>If more subnets are specified than availability zones, the module will spread the subnets out in a round-robin fashion, with some AZs getting more subnets than others. | - | yes |
+| route53_zone_id | A Route 53 zone ID to create resource record sets in that are bound the public IP addresses of the NAT gateways.<br><br>No DNS records are created if this value is blank. | `` | no |
+| route53_domain_name | A domain name to create resource record sets in that are bound the public IP addresses of the NAT gateways. This domain has to be part of the domain defined in `route53_zone_id`.<br><br>No DNS records are created if this value is blank. | `` | no |
 
 ## Outputs
 
@@ -51,6 +53,7 @@ available to them.
 | private_subnet_ids | The subnet IDs of the created subnets. |
 | private_route_table_ids | The route table IDs for the created private subnets. |
 | nat_gateway_ids | The IDs of the created NAT gateways. |
-| nat_gateway_public_address | The public addresses of the NAT gateways. |
-| nat_gateway_private_address | The private addresses of the NAT gateways. |
+| nat_gateway_public_addresses | The public addresses of the NAT gateways. |
+| nat_gateway_private_addresses | The private addresses of the NAT gateways. |
+| nat_gateway_dns_records | The DNS records created for the NAT gateways. |
 
