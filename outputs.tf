@@ -2,7 +2,8 @@
 
 // The subnet IDs of the created subnets.
 output "private_subnet_ids" {
-  value = ["${aws_subnet.private_subnets.*.id}"]
+  value      = ["${aws_subnet.private_subnets.*.id}"]
+  depends_on = ["aws_route.nat_default_routes"]
 }
 
 // The route table IDs for the created private subnets.
