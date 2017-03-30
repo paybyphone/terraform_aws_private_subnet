@@ -1,3 +1,7 @@
+## 0.1.3-pre
+
+Bumped version for dev.
+
 ## 0.1.2
 
 Fixed the `private_subnets` resource so that index does not go out of range when
