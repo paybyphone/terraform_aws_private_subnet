@@ -8,7 +8,7 @@ module "vpc" {
 
 // private_subnets provides the private subnets for the VPC.
 module "private_subnets" {
-  source                            = "../"
+  source                            = "../../"
   nat_gateway_count                 = "${length(var.public_network_addresses)}"
   private_subnet_addresses          = ["${var.private_network_addresses}"]
   private_subnet_availability_zones = "${values(module.vpc.public_subnet_availability_zones)}"

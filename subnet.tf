@@ -5,8 +5,8 @@
 resource "aws_subnet" "private_subnets" {
   count                   = "${length(var.private_subnet_addresses)}"
   vpc_id                  = "${var.vpc_id}"
-  availability_zone       = "${var.private_subnet_availability_zones[count.index]}"
-  cidr_block              = "${var.private_subnet_addresses[count.index]}"
+  availability_zone       = "${element(var.private_subnet_availability_zones, count.index)}"
+  cidr_block              = "${element(var.private_subnet_addresses, count.index)}"
   map_public_ip_on_launch = false
 
   tags {
