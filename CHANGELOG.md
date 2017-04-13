@@ -1,3 +1,7 @@
+## 0.1.4-pre
+
+Bumped version for dev.
+
 ## 0.1.3
 
 Added the `private_subnet_availability_zones` output, which behaves in the same
