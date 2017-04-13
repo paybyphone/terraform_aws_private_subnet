@@ -6,6 +6,12 @@ output "private_subnet_ids" {
   depends_on = ["aws_route.nat_default_routes"]
 }
 
+// The availability zones for the the created private subnets, as a
+// subnet ID -> zone map.
+output "private_subnet_availability_zones" {
+  value = "${zipmap(aws_subnet.private_subnets.*.id, aws_subnet.private_subnets.*.availability_zone)}"
+}
+
 // The route table IDs for the created private subnets.
 output "private_route_table_ids" {
   value = ["${aws_route_table.private_route_tables.*.id}"]

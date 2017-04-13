@@ -24,9 +24,15 @@ output "public_route_table_id" {
   value = "${module.vpc.public_route_table_id}"
 }
 
-// The subnet IDs of the created subnets.
+// The subnet IDs of the created private subnets.
 output "private_subnet_ids" {
   value = ["${module.private_subnets.private_subnet_ids}"]
+}
+
+// The availability zones for the the created private subnets, as a
+// subnet ID -> zone map.
+output "private_subnet_availability_zones" {
+  value = ["${module.private_subnets.private_subnet_availability_zones}"]
 }
 
 // The route table IDs for the created private subnets.
