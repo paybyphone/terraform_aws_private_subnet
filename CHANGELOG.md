@@ -1,7 +1,10 @@
-## 0.1.3-pre
+## 0.1.3
 
-Bumped version for dev.
-
+Added the `private_subnet_availability_zones` output, which behaves in the same
+way as the [terraform_aws_vpc](https://github.com/paybyphone/terraform_aws_vpc)
+module, providing a subnet ID -> availability zone association that can be used
+to locate the availability zone for a particular subnet.
+    
 ## 0.1.2
 
 Fixed the `private_subnets` resource so that index does not go out of range when
